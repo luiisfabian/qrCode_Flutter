@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:path/path.dart';
-import 'package:qr_code/src/models/scan_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+
+
+import 'package:qr_code/src/models/scan_model.dart';
+export  'package:qr_code/src/models/scan_model.dart';
 
 class DBProvider {
   static Database _database;
@@ -23,14 +26,21 @@ class DBProvider {
 
     final path = join(documentsDirectory.path, 'ScansDb.db');
 
-    return await openDatabase(path, version: 1, onOpen: (db) {},
-        onCreate: (Database db, int version) async {
-      await db.execute("created table Scans("
-          "id INTEGER PRIMARY KEY, "
-          "tipo TEXT, "
-          "valor TEXT "
-          ")");
-    });
+   return await openDatabase(
+      path,
+      version: 1,
+      onOpen: (db) {},
+      onCreate: ( Database db, int version ) async {
+        await db.execute(
+          'CREATE TABLE Scans ('
+          ' id INTEGER PRIMARY KEY,'
+          ' tipo TEXT,'
+          ' valor TEXT'
+          ')'
+        );
+      }
+    
+    );
   }
 
   nuevoScanRow(ScanModel nuevoScan) async {
@@ -58,7 +68,7 @@ class DBProvider {
 
   Future<List<ScanModel>> getTodosLosScan() async {
     final db = await database;
-    final res = await db.query("scan");
+    final res = await db.query("Scans");
 
 
     List<ScanModel> list = res.isNotEmpty ? res.map((e) => ScanModel.fromJson(e)).toList(): [];

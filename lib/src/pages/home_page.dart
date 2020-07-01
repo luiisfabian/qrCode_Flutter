@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:qr_code/src/pages/direcciones_page.dart';
 import 'package:qr_code/src/pages/mapas_page.dart';
+import 'package:qr_code/src/providers/db_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   // geo:6.244143848577258,-75.52892103632816
 
   scanQR() async {
-    dynamic futureString = '';
+    String futureString = 'https://fernando-herrera.com/#/home';
 
     // try {
     //   futureString = await BarcodeScanner.scan();
@@ -46,10 +47,10 @@ class _HomePageState extends State<HomePage> {
     // }
 
     
-    // if (futureString != null) {
-      
-    //   print("tenemos informacion");
-    // }
+    if (futureString != null) {
+      final scans = ScanModel(valor: futureString);
+      DBProvider.db.nuevoScan(scans);
+    }
 
     // print('Future String: ${futureString.rawContent}');
   }
