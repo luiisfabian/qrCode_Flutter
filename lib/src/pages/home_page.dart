@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   // geo:6.244143848577258,-75.52892103632816
 
   scanQR() async {
-    String futureString = 'https://fernando-herrera.com/#/home';
+    String futureString = 'https://kuvanty.com/#/login';
 
     // try {
     //   futureString = await BarcodeScanner.scan();
