@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code/src/pages/home_page.dart';
+import 'package:qr_code/src/pages/mapa_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,13 +9,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-        title: 'Qr Reader Code',
-        initialRoute: 'home',
-        routes: {'home': (BuildContext context) => HomePage()},
-        theme: ThemeData(
-          primaryColor: Colors.deepPurple
-        ),
-        
-        );
+      title: 'Qr Reader Code',
+      initialRoute: 'home',
+      routes: {
+        'home': (BuildContext context) => HomePage(),
+        'mapa': (BuildContext context) => MapaPage(),
+      },
+      theme: ThemeData(primaryColor: Colors.deepPurple),
+    );
   }
 }

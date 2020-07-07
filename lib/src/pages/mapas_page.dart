@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code/src/providers/db_provider.dart';
+import 'package:qr_code/src/bloc/scans_bloc.dart';
+import 'package:qr_code/src/models/scan_model.dart';
+import 'package:qr_code/src/utils/utils.dart' as utils;
 
 class MapasPage extends StatelessWidget {
-  const MapasPage({Key key}) : super(key: key);
+  final scansbloc = new ScansBloc();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    // return FutureBuilder(
+    return StreamBuilder(
+      stream: scansbloc.scansStream,
       builder: (BuildContext context, AsyncSnapshot<List<ScanModel>> snapshot) {
-        print(snapshot);
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(),
@@ -22,8 +25,8 @@ class MapasPage extends StatelessWidget {
 
         return ListView.builder(
           itemBuilder: (BuildContext context, int i) => Dismissible(
-            onDismissed: (DismissDirection direction){
-              DBProvider.db.deleteScan(scans[i].id);
+            onDismissed: (DismissDirection direction) {
+              scansbloc.borrarScan(scans[i].id);
             },
             key: UniqueKey(),
             background: Container(
@@ -35,17 +38,19 @@ class MapasPage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
               title: Text(scans[i].valor),
-              subtitle: Text('ID: '+scans[i].id.toString()),
+              subtitle: Text('ID: ' + scans[i].id.toString()),
               trailing: Icon(
                 Icons.keyboard_arrow_right,
                 color: Colors.grey,
               ),
+              onTap: (){
+                utils.abrirScan(context, scans[i]);
+              },
             ),
           ),
           itemCount: scans.length,
         );
       },
-      future: DBProvider.db.getTodosLosScan(),
     );
   }
 }
